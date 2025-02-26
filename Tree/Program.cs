@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using Tree;
 
 // See https://aka.ms/new-console-template for more information
-Console.WriteLine("Tree class example");
+Console.WriteLine("Tree class example"+Environment.NewLine);
 
 TreeItem<Xxx> na = new TreeItem<Xxx>(new Xxx("Pippo"), null);
 
@@ -25,10 +25,20 @@ TreeItem<Xxx> nf2 = new TreeItem<Xxx>(new Xxx("Amelia"),ne1);
 
 TreeItem<Xxx> ng1 = new TreeItem<Xxx>(new Xxx("Rockerduck"),nf1);
 
-//foreach (Xxx x in na.Items(10))
-foreach(TreeItem<Xxx> x in na.TreeItems())
-{
-	Console.WriteLine(x.ToString());
-}
+Console.WriteLine("na=\n"+na.ToString());
+Console.WriteLine();
+Console.WriteLine("na=\n"+na.ToString(TreeSearchType.droadth_first));
+Console.WriteLine("na=\n"+na.ToString(TreeSearchType.depth_first));
+Console.WriteLine("nb2=\n"+nb2.ToString(TreeSearchType.depth_first));
+
+TreeItem<Xxx>? nrev = na.Remove(nb2);
+Console.WriteLine("na=\n"+na.ToString(TreeSearchType.depth_first));
+Console.WriteLine("nrev=\n"+((nrev == null) ? "null" : nrev.ToString(TreeSearchType.depth_first)));
+
+na.Add(nrev);
+Console.WriteLine("na=\n"+na.ToString(TreeSearchType.depth_first));
+Console.WriteLine("nrev=\n"+((nrev == null) ? "null" : nrev.ToString(TreeSearchType.depth_first)));
+
+Console.WriteLine(na.ToTreeString());
 
 Console.ReadKey();
