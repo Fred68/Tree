@@ -3,6 +3,9 @@ using Fred68.TreeItem;
 using System.Collections.Specialized;
 using Tree;
 
+
+//System.Text.Encoding OutputEncoding = System.Text.Encoding.Unicode;
+
 // See https://aka.ms/new-console-template for more information
 Console.WriteLine("Tree class example"+Environment.NewLine);
 
@@ -19,6 +22,7 @@ TreeItem<Xxx> nd2 = new TreeItem<Xxx>(new Xxx("Quo"),nb2);
 TreeItem<Xxx> nd3 = new TreeItem<Xxx>(new Xxx("Qua"),nb2);
 
 TreeItem<Xxx> ne1 = new TreeItem<Xxx>(new Xxx("Paperoga"),nd2);
+TreeItem<Xxx> ne2 = new TreeItem<Xxx>(new Xxx("Pico de Paperiis"),nd1);
 
 TreeItem<Xxx> nf1 = new TreeItem<Xxx>(new Xxx("Zio Paperone"),ne1);
 TreeItem<Xxx> nf2 = new TreeItem<Xxx>(new Xxx("Amelia"),ne1);

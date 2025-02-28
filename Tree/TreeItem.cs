@@ -142,17 +142,16 @@ namespace Fred68.TreeItem
 		}
 		public string ToTreeString(int max_rel_depth = int.MaxValue)
 		{
-			#warning USARE UNA LISTA CON OGGETTO <T>, PROFONDITA RELATIVA E ALTRE INFORMAZIONI (ULTIMO DI UN LIVELLO...) PER DISEGNARE L'ALBERO
-
-			const string _incrocio = " |_";
-			const string _terminale = " L_";
-			StringBuilder sb = new StringBuilder();
+			const string _incrocio =	" |-";
+			const string _terminale =	" L_";
+			const string _vuoto =		"   ";
+			const string _continua =	" | ";
 			
 			List<DiagramItem<T>> lst = new List<DiagramItem<T>>();
-			
+
 			
 			Stack<DiagramItem<T>> stack = new Stack<DiagramItem<T>>();    // Stack, for depth-first search
-			
+			int depth_max = 0;
 			stack.Push(new DiagramItem<T>(this, this._depth));
 			while(stack.Count > 0)                                  // Search...
 			{
@@ -170,10 +169,50 @@ namespace Fred68.TreeItem
 						}
 					}
 				}
-				sb.AppendLine($"{new string('.',item._depth)}{((item._isLastChild) ? "-" : "|")}{item._treeIt.Data.ToString()}");
+				if(item._depth > depth_max)	depth_max = item._depth;
+				lst.Add(item);
 			}
 
+			StringBuilder sb = new StringBuilder("Tree...\n");
+			for(int dpth = 1; dpth <= depth_max; dpth++)
+			{
+				bool cont_level = false;			// Continue level connection
+				foreach(DiagramItem<T> item in lst)
+				{
+					string ch = _vuoto;
+					if(item._depth >= dpth)			// Take only nodes of enough dept into account...
+					{
+						if(item._depth == dpth)		// If current tree depth
+						{
+							cont_level = true;
+							if(item._isLastChild)
+							{
+								
+								cont_level = false;		// Last child
+								ch = _terminale;
+							}
+							else
+							{
+								ch = _incrocio;			// Child, but not the last one
+							}
+						}
+						else
+						{
+							if(cont_level)			// Different depth
+							{
+								ch = _continua;
+							}
+						}
+						item._indent.Append(ch);
+					}
+				}
+			}
 
+			foreach(DiagramItem<T> item in lst)
+			{
+				sb.AppendLine($"{item._indent}[{item._depth}]{item._treeIt.Data.ToString()}");
+			}
+			
 
 			return sb.ToString();
 		}	
@@ -200,7 +239,7 @@ namespace Fred68.TreeItem
 		/// <returns></returns>
 		public IEnumerable<TreeItem<T>> TreeItems(TreeSearchType s = TreeSearchType.droadth_first, int max_rel_depth = int.MaxValue)
 		{
-			#warning EVENTUALMENTE IMPLEMENTARE UNA DEQUE, COME ARRAY (CHE NON PARTE DA ZERO...) COPIANDO DA List.cs (non usare List<T>, InsertAt(0) è lento)
+			#warning Eventualmente implementare una Deque<T> come array (che non parte da zero...) copiando da list.cs (non usare list<T>, InsertAt(0) è lento)
 
 			if( s == TreeSearchType.droadth_first)
 			{
