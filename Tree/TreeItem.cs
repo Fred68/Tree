@@ -16,15 +16,13 @@ namespace Fred68.TreeItem
 {
 	public enum TreeSearchType {droadth_first, depth_first};
 
-	public class TreeItem<T> where T : class
+	public class TreeItem<T> where T : class, IFormattable
 	{
 		T						_data;		/// Data reference
 		TreeItem<T>				_root;		// Root node, can be 'this'
 		int						_depth;		// Node depth (0 if root)
 		TreeItem<T>?			_prev;		// Previous node: 'father' node or null (if root)
 		List<TreeItem<T>>?		_items;     // First level child items (can be null)
-
-		
 
 		/// <summary>
 		/// Data
@@ -90,7 +88,7 @@ namespace Fred68.TreeItem
 				{
 					_prev._items = new List<TreeItem<T>>();
 				}
-				_prev._items.Add(this);		// ...and add this to the list
+				_prev._items.Insert(0, this);	// ...and add this to the list, at the beginning, to preserve creation order
 			}
 		}
 
@@ -124,7 +122,7 @@ namespace Fred68.TreeItem
 		/// Classe di supporto per ToString()
 		/// </summary>
 		/// <typeparam name="TD"></typeparam>
-		public class DiagramItem<TD> where TD : class
+		protected class DiagramItem<TD> where TD : class, IFormattable
 		{
 			public TreeItem<TD>		_treeIt;
 			public int				_depth;
@@ -140,6 +138,12 @@ namespace Fred68.TreeItem
 			}
 
 		}
+
+		/// <summary>
+		/// TreeItems to string, with tree links
+		/// </summary>
+		/// <param name="max_rel_depth"></param>
+		/// <returns></returns>
 		public string ToTreeString(int max_rel_depth = int.MaxValue)
 		{
 			const string _incrocio =	" |-";
@@ -158,7 +162,6 @@ namespace Fred68.TreeItem
 				DiagramItem<T> item = stack.Pop();
 				if(item._depth - this._depth < max_rel_depth)
 				{
-					//foreach(TreeItem<T> chItem in item._treeIt.Items())
 					if(item._treeIt._items != null)
 					{
 						for(int i = 0; i < item._treeIt._items.Count; i++)
@@ -173,7 +176,7 @@ namespace Fred68.TreeItem
 				lst.Add(item);
 			}
 
-			StringBuilder sb = new StringBuilder("Tree...\n");
+			StringBuilder sb = new StringBuilder();
 			for(int dpth = 1; dpth <= depth_max; dpth++)
 			{
 				bool cont_level = false;			// Continue level connection
@@ -210,7 +213,7 @@ namespace Fred68.TreeItem
 
 			foreach(DiagramItem<T> item in lst)
 			{
-				sb.AppendLine($"{item._indent}[{item._depth}]{item._treeIt.Data.ToString()}");
+				sb.AppendLine($"{item._indent}{item._treeIt.Data.ToString()}");
 			}
 			
 
@@ -350,7 +353,6 @@ namespace Fred68.TreeItem
 			}
 			return ret;
 		}
-
 
 		/// <summary>
 		/// Update root and depths in item sub-tree, using item previous node (null if item is root)...
