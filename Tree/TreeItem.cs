@@ -152,7 +152,6 @@ namespace Fred68.TreeItem
 			const string _continua =	" | ";
 			
 			List<DiagramItem<T>> lst = new List<DiagramItem<T>>();
-
 			
 			Stack<DiagramItem<T>> stack = new Stack<DiagramItem<T>>();    // Stack, for depth-first search
 			int depth_max = 0;
@@ -289,7 +288,10 @@ namespace Fred68.TreeItem
 		public List<TreeItem<T>> TreeItemsToList(TreeSearchType s = TreeSearchType.droadth_first, int max_rel_depth = int.MaxValue)
 		{
 			List<TreeItem<T>> il = new List<TreeItem<T>>();
-			foreach(TreeItem<T> item in TreeItems(s,max_rel_depth)) { il.Add(item); }
+			foreach(TreeItem<T> item in TreeItems(s,max_rel_depth))
+				{
+				il.Add(item);
+				}
 			return il;
 		}
 
@@ -383,6 +385,40 @@ namespace Fred68.TreeItem
 				}
 				keep = true;
 			}
+		}
+
+		/// <summary>
+		/// Clear the node and its tree
+		/// </summary>
+		public void Clear()
+		{
+			TreeItem<T>? prev = this._prev;
+			if(prev != null)
+			{
+				prev.Remove(this);
+			}
+
+			List<TreeItem<T>> list = TreeItemsToList();
+			
+			list.RemoveAt(0);						// Remove first node (this)
+			foreach(TreeItem<T> itm in list)
+			{
+				itm._data = null;					// Set null pointer, easing GC to dealloc data
+				itm._depth = 0;
+				itm._prev = null;
+				if(itm._items != null)
+				{
+					itm._items.Clear();
+					itm._items = null;
+				}
+			}
+
+			if(this._items != null)					// Clear this items				
+			{
+				this._items.Clear();
+				this._items = null;
+			}
+
 		}
 	}
 }

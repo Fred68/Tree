@@ -45,4 +45,11 @@ Console.WriteLine("nrev=\n"+((nrev == null) ? "null" : nrev.ToString(TreeSearchT
 
 Console.WriteLine(na.ToTreeString());
 
+nd2.Clear();
+
+Console.WriteLine(na.ToTreeString());
+
+na.Clear();
+Console.WriteLine(na.ToTreeString());
+
 Console.ReadKey();
