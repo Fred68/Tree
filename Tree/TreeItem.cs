@@ -14,7 +14,7 @@ using Tree;
 
 namespace Fred68.TreeItem
 {
-	public enum TreeSearchType {droadth_first, depth_first};
+	public enum TreeSearchType {broadth_first, depth_first};
 
 	public class TreeItem<T> where T : class, IFormattable
 	{
@@ -36,7 +36,7 @@ namespace Fred68.TreeItem
 		/// <summary>
 		/// Depth (readonly)
 		/// </summary>
-		public int Dept
+		public int Depth
 		{
 			get {return _depth; }
 		}
@@ -239,11 +239,11 @@ namespace Fred68.TreeItem
 		/// </summary>
 		/// <param name="max_rel_depth">max relative depth</param>
 		/// <returns></returns>
-		public IEnumerable<TreeItem<T>> TreeItems(TreeSearchType s = TreeSearchType.droadth_first, int max_rel_depth = int.MaxValue)
+		public IEnumerable<TreeItem<T>> TreeItems(TreeSearchType s = TreeSearchType.broadth_first, int max_rel_depth = int.MaxValue)
 		{
 			#warning Eventualmente implementare una Deque<T> come array (che non parte da zero...) copiando da list.cs (non usare list<T>, InsertAt(0) è lento)
 
-			if( s == TreeSearchType.droadth_first)
+			if( s == TreeSearchType.broadth_first)
 			{
 				Queue<TreeItem<T>> queue = new Queue<TreeItem<T>>();	// Queue, for breadth-first search
 				queue.Enqueue(this);
@@ -285,7 +285,7 @@ namespace Fred68.TreeItem
 		/// </summary>
 		/// <param name="max_rel_depth">max relative depth</param>
 		/// <returns></returns>
-		public List<TreeItem<T>> TreeItemsToList(TreeSearchType s = TreeSearchType.droadth_first, int max_rel_depth = int.MaxValue)
+		public List<TreeItem<T>> TreeItemsToList(TreeSearchType s = TreeSearchType.broadth_first, int max_rel_depth = int.MaxValue)
 		{
 			List<TreeItem<T>> il = new List<TreeItem<T>>();
 			foreach(TreeItem<T> item in TreeItems(s,max_rel_depth))
@@ -300,7 +300,7 @@ namespace Fred68.TreeItem
 		/// </summary>
 		/// <param name="max_rel_depth">max relative depth</param>
 		/// <returns></returns>
-		public IEnumerable<T> TreeItemsData(TreeSearchType s = TreeSearchType.droadth_first, int max_rel_depth = int.MaxValue)
+		public IEnumerable<T> TreeItemsData(TreeSearchType s = TreeSearchType.broadth_first, int max_rel_depth = int.MaxValue)
 		{
 			foreach(TreeItem<T> t in this.TreeItems(s,max_rel_depth))
 			{

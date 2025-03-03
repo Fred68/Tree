@@ -31,7 +31,7 @@ TreeItem<Xxx> ng1 = new TreeItem<Xxx>(new Xxx("Rockerduck"),nf1);
 
 Console.WriteLine("na=\n"+na.ToString());
 Console.WriteLine();
-Console.WriteLine("na=\n"+na.ToString(TreeSearchType.droadth_first));
+Console.WriteLine("na=\n"+na.ToString(TreeSearchType.broadth_first));
 Console.WriteLine("na=\n"+na.ToString(TreeSearchType.depth_first));
 Console.WriteLine("nb2=\n"+nb2.ToString(TreeSearchType.depth_first));
 
