@@ -218,6 +218,7 @@ namespace Fred68.TreeItem
 
 			return sb.ToString();
 		}	
+
 		/// <summary>
 		/// Enumerate first level child items
 		/// </summary>
@@ -234,6 +235,17 @@ namespace Fred68.TreeItem
 			yield break;
 		}
 		
+		/// <summary>
+		/// First level child items count
+		/// </summary>
+		/// <returns></returns>
+		public int ItemsCount()
+		{
+			int count = 0;
+			if(_items != null)	count = _items.Count;
+			return count;
+		}
+
 		/// <summary>
 		/// Enumerate child items
 		/// </summary>
