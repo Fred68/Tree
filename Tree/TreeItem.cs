@@ -58,6 +58,25 @@ namespace Fred68.TreeItem
 		}
 
 		/// <summary>
+		/// IsLeaf (node with no sons)
+		/// </summary>
+		public bool IsLeaf
+		{
+			get
+			{
+				bool leaf = false;
+				if(_items == null)
+				{
+					leaf = true;
+				}
+				else if (_items.Count == 0)
+				{
+					leaf = true;
+				}
+				return  leaf;
+			}
+		}
+		/// <summary>
 		/// Previous node (or null)
 		/// </summary>
 		public TreeItem<T>? Previous
